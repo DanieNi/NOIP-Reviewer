@@ -157,7 +157,7 @@ public class Point implements TreeNode{
 
 	@Override
 	public int getIndex(TreeNode arg0) {
-		return 0;
+		return sons.indexOf(arg0);
 	}
 
 	@Override

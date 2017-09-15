@@ -19,46 +19,46 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 3992464077921404112L;
 	
 	private JPanel contentPane;
+	private JButton bSign;
+	private JButton bApi;
+	private JButton bHelp;
+	private JButton bGit;
+	private JButton bKnowledge;
+	private JButton bCheck;
+	private JButton bExit;
+	private JLabel lbVersion;
 
 	/**
 	 * Create the frame.
 	 */
 	public MainFrame() {
-		setTitle("Menu");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 225, 346);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contantPaneInit();
+		mainFrameInit();
+		bSignInit();
+		bApiInit();
+		bHelpInit();
+		bGitInit();
+		bKnowledgeInit();
+		bCheckInit();
+		bExitInit();
+		lbVersionInit();
 		
-		JButton button = new JButton("每日打卡");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		bSignEventsRegister();
+		bKnowledgeEventsRegister();
+		bExitEventsRegister();
+	}
+
+	private void bExitEventsRegister() {
+		bExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				System.exit(-1);
 			}
 		});
-		button.setFont(new Font("Dialog", Font.BOLD, 14));
-		button.setBounds(38, 20, 146, 27);
-		contentPane.add(button);
-		
-		JButton btnapi = new JButton("官方API");
-		btnapi.setFont(new Font("Dialog", Font.BOLD, 14));
-		btnapi.setBounds(38, 170, 146, 27);
-		contentPane.add(btnapi);
-		
-		JButton button_2 = new JButton("帮助");
-		button_2.setFont(new Font("Dialog", Font.BOLD, 14));
-		button_2.setBounds(38, 207, 146, 27);
-		contentPane.add(button_2);
-		
-		JButton button_3 = new JButton("代码仓库");
-		button_3.setFont(new Font("Dialog", Font.BOLD, 14));
-		button_3.setBounds(38, 96, 146, 27);
-		contentPane.add(button_3);
-		
-		JButton button_4 = new JButton("知识图谱");
-		button_4.addMouseListener(new MouseAdapter() {
+	}
+
+	private void bKnowledgeEventsRegister() {
+		bKnowledge.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				MainFrame.this.setEnabled(false);
@@ -74,31 +74,93 @@ public class MainFrame extends JFrame {
 				});
 			}
 		});
-		button_4.setFont(new Font("Dialog", Font.BOLD, 14));
-		button_4.setBounds(38, 59, 146, 27);
-		contentPane.add(button_4);
-		
-		JButton button_5 = new JButton("对拍程序");
-		button_5.setFont(new Font("Dialog", Font.BOLD, 14));
-		button_5.setBounds(38, 133, 146, 27);
-		contentPane.add(button_5);
-		
-		JButton button_1 = new JButton("退出");
-		button_1.setFont(new Font("Dialog", Font.BOLD, 14));
-		button_1.setBounds(38, 246, 146, 27);
-		button_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				System.exit(-1);
+	}
+
+	private void bSignEventsRegister() {
+		bSign.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							SignFrame frame = new SignFrame();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
 			}
 		});
-		contentPane.add(button_1);
-		
-		JLabel lblNewLabel = new JLabel("Version:1.0 BETA");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 12));
-		lblNewLabel.setBounds(80, 298, 135, 16);
-		contentPane.add(lblNewLabel);
-		
+	}
+
+	private void lbVersionInit() {
+		lbVersion = new JLabel("Version:1.0 BETA");
+		lbVersion.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbVersion.setFont(new Font("Dialog", Font.BOLD, 12));
+		lbVersion.setBounds(80, 298, 135, 16);
+		contentPane.add(lbVersion);
+	}
+
+	private void bExitInit() {
+		bExit = new JButton("退出");
+		bExit.setFont(new Font("Dialog", Font.BOLD, 14));
+		bExit.setBounds(38, 246, 146, 27);
+		contentPane.add(bExit);
+	}
+
+	private void bCheckInit() {
+		bCheck = new JButton("对拍程序");
+		bCheck.setFont(new Font("Dialog", Font.BOLD, 14));
+		bCheck.setBounds(38, 133, 146, 27);
+		contentPane.add(bCheck);
+	}
+
+	private void bKnowledgeInit() {
+		bKnowledge = new JButton("知识图谱");
+		bKnowledge.setFont(new Font("Dialog", Font.BOLD, 14));
+		bKnowledge.setBounds(38, 59, 146, 27);
+		contentPane.add(bKnowledge);
+	}
+
+	private void bGitInit() {
+		bGit = new JButton("代码仓库");
+		bGit.setFont(new Font("Dialog", Font.BOLD, 14));
+		bGit.setBounds(38, 96, 146, 27);
+		contentPane.add(bGit);
+	}
+
+	private void bHelpInit() {
+		bHelp = new JButton("帮助");
+		bHelp.setFont(new Font("Dialog", Font.BOLD, 14));
+		bHelp.setBounds(38, 207, 146, 27);
+		contentPane.add(bHelp);
+	}
+
+	private void bApiInit() {
+		bApi = new JButton("官方API");
+		bApi.setFont(new Font("Dialog", Font.BOLD, 14));
+		bApi.setBounds(38, 170, 146, 27);
+		contentPane.add(bApi);
+	}
+
+	private void bSignInit() {
+		bSign = new JButton("每日打卡");
+		bSign.setFont(new Font("Dialog", Font.BOLD, 14));
+		bSign.setBounds(38, 20, 146, 27);
+		contentPane.add(bSign);
+	}
+
+	private void contantPaneInit() {
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+	}
+
+	private void mainFrameInit() {
+		setTitle("Menu");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 225, 346);
+		setContentPane(contentPane);
 	}
 }

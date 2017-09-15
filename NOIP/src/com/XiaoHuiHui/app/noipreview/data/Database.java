@@ -4,8 +4,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -38,14 +40,22 @@ public class Database {
 	
 	//读取根节点的数据
 	public static void read() {
-		read(null,sp+"data"+sp,-1);
-		Collections.sort(list);
+		read(null,"data"+sp,-1);
+		 Collections.sort(list, new Comparator<String>() {  
+	            @Override  
+	            public int compare(String o1, String o2) {  
+	                Comparator<Object> com = Collator.
+	                		getInstance(java.util.Locale.CHINA);  
+	                return com.compare(o1, o2);  
+	  
+	            }  
+	        });  
 	}
 	
 	//读取某一节点的数据
 	@SuppressWarnings("rawtypes")
 	public static void read(Point p,String path,int floor) {
-		System.out.println(path);
+		System.out.println(path);//TODO
 		if(floor >= Point.floorNum) {
 			throw new IllegalArgumentException(
 					"Floor "+floor+" can't be over "+Point.floorNum);
@@ -103,13 +113,12 @@ public class Database {
 	}
 	
 	//读取某一个文件的文本信息
-	@SuppressWarnings("unused")
 	public static String readFile(String path,int i) throws IOException {
+		System.out.println(path); //TODO
         StringBuffer codes=new StringBuffer("");
         FileReader fr=new FileReader(path);
         char buff[]=new char[Database.BUFF];
-        int len=0;
-        while((len=fr.read(buff))!=-1) {
+        while(fr.read(buff)!=-1) {
         	codes.append(buff);
         }
         fr.close();
