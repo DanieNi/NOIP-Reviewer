@@ -1,0 +1,8 @@
+isRoot: false
+isLeafNode: false
+floor: 1
+
+sonNodeNum: 
+nodeName: '算法'
+
+inScreen: 'introduction.dx'

@@ -1,0 +1,51 @@
+2.8　文件操作!
+	了解文件操作前，先回忆一下之前学的输入输出函数'cin'和'cout'，所谓'in'和'out'都能明白是什么意思，但是那个'c'是什么呢？其实那个'c'指的是'controller'，即控制台。所谓'cin'就是从控制台输入，计算机默认输入控制台是键盘、鼠标等。同理，输出控制台是屏幕。
+	在比赛中，为了更有效的对比选手程序的输出文件和标准答案的同异，一般都会要求使用文件输入输出，就是把控制台换成了两个文件。
+	正式竞赛时，数据都从扩展名为"in"的文件读入，并且需要你把结果输出到扩展名为"out"的文件中；
+	在OJ(Online Judge，在线测评器)中则不需要文件操作。具体情况要仔细查看题目说明，以免发生悲剧。
+	
+	文件输入输出有以下几种实现手段。
+	(1) 输入/输出重定向
+		头文件：<fstream>或<cstdio>
+			方法：只需在操作文件之前添加以下两行代码。
+		freopen("XXXXX.in","r",stdin);
+		freopen("XXXXX.out","w",stdout);
+			调用两次freopen后，scanf、printf、cin、cout的用法完全不变，只是操作对象由屏幕变成了指定的文件。
+			使用输入重定向之后，"命令提示符"窗口将不再接受任何键盘输入(调用system时也是如此)，直到程序退出。
+			这时不能再用system("pause")暂停屏幕。
+		这是一种很简单也很好用的方式，一般建议新手都是用重定向。
+		当然也有它的缺点，等到冲刺省一的时候再换方式也不迟。
+
+	(2) 文件流
+		头文件：<fstream>
+		流的速度比较慢，在输入/输出大量数据的时候，要使用其他文件操作方法。
+			方法：定义两个全局变量。
+		ifstream fin("XXXXX.in");
+		ofstream fout("XXXXX.out");
+			fin、fout和cin、cout一样，也用"<<"、">>"运算符输入/输出，如：fin>>a; fout<<b;
+		当然，也可以通过#define把fin、fout变成cin、cout：
+		#define cin fin
+		#define cout fout
+
+	(3) FILE指针
+		头文件：<cstdio>或<fstream>
+			方法：定义两个指针。
+		FILE *fin, *fout;
+		……
+		int main()
+		{
+			fin = fopen("XXXXX.in", "r");
+			fout = fopen("XXXXX.out", "w");
+			......
+			fclose(fin); fclose(fout);	
+			// 在某些情况下，忘记关闭文件会被认为是没有产生文件。
+			return 0;
+		}
+		进行输入/输出操作时，要注意函数名的前面有f，即fprintf、fscanf、fgets。
+		并且这些函数的第一个参数不是格式字符串，而是fin或fout，如fprintf(fout, "%d", ans)。
+		想改成从屏幕上输入/输出时，不用对代码动手术，只需把含fopen和fclose的代码注释掉，并改成：
+			fin=stdin; fout=stdout;
+			
+		理论上第三种方式是最快的，但是操作有些麻烦，请大家视自身情况而定。
+		
+总结：对于任何一个算法竞赛，文件输入输出都是必不可少的操作，请大家务必熟练掌握！！
