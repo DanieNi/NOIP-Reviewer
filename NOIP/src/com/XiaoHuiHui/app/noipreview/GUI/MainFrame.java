@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.XiaoHuiHui.app.noipreview.Main;
+import com.XiaoHuiHui.app.noipreview.Outputer;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -13,11 +17,14 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
 
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 3992464077921404112L;
 	
+	private static final String name="MainFrame";
+
 	private JPanel contentPane;
 	private JButton bSign;
 	private JButton bApi;
@@ -32,6 +39,8 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		Outputer.log(Level.INFO, "Start Loading frame: MAIN_FRAME");
+		CloseFrameWindowAdapter.main=this;
 		contantPaneInit();
 		mainFrameInit();
 		bSignInit();
@@ -42,33 +51,47 @@ public class MainFrame extends JFrame {
 		bCheckInit();
 		bExitInit();
 		lbVersionInit();
-		
+
+		mainFrameEventsRegister();
 		bSignEventsRegister();
 		bKnowledgeEventsRegister();
+		bApiEventsRegister();
 		bExitEventsRegister();
+		Outputer.log(Level.INFO, "Loading complete...");
+	}
+
+	private void mainFrameEventsRegister() {
+		Outputer.log(Level.INFO, "Registering events to Frame: mainFrame");
+		addWindowListener(new ExitWindowAdapter(name));
 	}
 
 	private void bExitEventsRegister() {
+		Outputer.log(Level.INFO, "Registering events to Button: bExit");
 		bExit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				System.exit(-1);
+				Outputer.log(Level.INFO, "Clicked Button bExit on mainFrame");
+				Outputer.log(Level.INFO, "MainFrame Closed...");
+				Main.exit();
 			}
 		});
 	}
 
 	private void bKnowledgeEventsRegister() {
+		Outputer.log(Level.INFO, "Registering events to Button: bKnowledge");
 		bKnowledge.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				Outputer.log(Level.INFO, "Clicked Button bKnowledge on mainFrame");
 				MainFrame.this.setEnabled(false);
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
 							TreeFrame frame = new TreeFrame(MainFrame.this);
 							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
+							setEnabled(false);
+						} catch (Throwable e) {
+							Main.error(e);
 						}
 					}
 				});
@@ -77,15 +100,18 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bSignEventsRegister() {
+		Outputer.log(Level.INFO, "Registering events to Button: bSign");
 		bSign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Outputer.log(Level.INFO, "Clicked Button bSign on mainFrame");
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							SignFrame frame = new SignFrame();
+							SignFrame frame = new SignFrame(MainFrame.this);
 							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
+							setEnabled(false);
+						} catch (Throwable e) {
+							Main.error(e);
 						}
 					}
 				});
@@ -94,7 +120,8 @@ public class MainFrame extends JFrame {
 	}
 
 	private void lbVersionInit() {
-		lbVersion = new JLabel("Version:1.0 BETA");
+		Outputer.log(Level.INFO, "Loading Label: lbVersion");
+		lbVersion = new JLabel("Version:1.0");
 		lbVersion.setHorizontalAlignment(SwingConstants.RIGHT);
 		lbVersion.setFont(new Font("Dialog", Font.BOLD, 12));
 		lbVersion.setBounds(80, 298, 135, 16);
@@ -102,6 +129,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bExitInit() {
+		Outputer.log(Level.INFO, "Loading Button: bExit");
 		bExit = new JButton("退出");
 		bExit.setFont(new Font("Dialog", Font.BOLD, 14));
 		bExit.setBounds(38, 246, 146, 27);
@@ -109,6 +137,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bCheckInit() {
+		Outputer.log(Level.INFO, "Loading Button: bCheck");
 		bCheck = new JButton("对拍程序");
 		bCheck.setFont(new Font("Dialog", Font.BOLD, 14));
 		bCheck.setBounds(38, 133, 146, 27);
@@ -116,6 +145,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bKnowledgeInit() {
+		Outputer.log(Level.INFO, "Loading Button: bKnowledge");
 		bKnowledge = new JButton("知识图谱");
 		bKnowledge.setFont(new Font("Dialog", Font.BOLD, 14));
 		bKnowledge.setBounds(38, 59, 146, 27);
@@ -123,6 +153,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bGitInit() {
+		Outputer.log(Level.INFO, "Loading Button: bGit");
 		bGit = new JButton("代码仓库");
 		bGit.setFont(new Font("Dialog", Font.BOLD, 14));
 		bGit.setBounds(38, 96, 146, 27);
@@ -130,6 +161,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bHelpInit() {
+		Outputer.log(Level.INFO, "Loading Button: bHelp");
 		bHelp = new JButton("帮助");
 		bHelp.setFont(new Font("Dialog", Font.BOLD, 14));
 		bHelp.setBounds(38, 207, 146, 27);
@@ -137,13 +169,34 @@ public class MainFrame extends JFrame {
 	}
 
 	private void bApiInit() {
+		Outputer.log(Level.INFO, "Loading Button: bApi");
 		bApi = new JButton("官方API");
 		bApi.setFont(new Font("Dialog", Font.BOLD, 14));
 		bApi.setBounds(38, 170, 146, 27);
 		contentPane.add(bApi);
 	}
 
+	private void bApiEventsRegister() {
+		bApi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							APIFrame frame = new APIFrame(MainFrame.this);
+							frame.setVisible(true);
+							setEnabled(false);
+						} catch (Throwable e) {
+							Main.error(e);
+						}
+					}
+				});
+			}
+		});
+	}
+
 	private void bSignInit() {
+		Outputer.log(Level.INFO, "Loading Button: bSign");
 		bSign = new JButton("每日打卡");
 		bSign.setFont(new Font("Dialog", Font.BOLD, 14));
 		bSign.setBounds(38, 20, 146, 27);
@@ -151,15 +204,16 @@ public class MainFrame extends JFrame {
 	}
 
 	private void contantPaneInit() {
+		Outputer.log(Level.INFO, "Loading Panel: contentPane");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 	}
 
 	private void mainFrameInit() {
+		Outputer.log(Level.INFO, "Loading Frame: mainFrame");
 		setTitle("Menu");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 225, 346);
 		setContentPane(contentPane);
 	}

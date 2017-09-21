@@ -8,41 +8,41 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-public class Point implements TreeNode{
-	public static final int floorNum=5;//章节层数 以备扩展使用
-	
-	int Chapter[]=new int[Point.floorNum]; //章节
-	String nodeName; //名称
-	int sonNodeNum; //儿子的个数
-	String inScreen; //屏幕显示的介绍
-	String txtContent; //新窗口显示的内容
-	String codes; //代码
-	List<Point> sons; //儿子们
-	Point parent; //爸爸
-	
-	//Constructor
-	public Point(int Chapter[],String nodeName,int sonNodeNum,
-			String inScreen,String txtContent,String codes,Point parent) {
-		if(Chapter.length>Point.floorNum){
-			StringBuffer sb=new StringBuffer("编号：");
-			for(int i=0;i<Chapter.length;++i){
+public class Point implements TreeNode {
+	public static final int floorNum = 5;// 章节层数 以备扩展使用
+
+	int Chapter[] = new int[Point.floorNum]; // 章节
+	String nodeName; // 名称
+	int sonNodeNum; // 儿子的个数
+	String inScreen; // 屏幕显示的介绍
+	String txtContent; // 新窗口显示的内容
+	String codes; // 代码
+	List<Point> sons; // 儿子们
+	Point parent; // 爸爸
+
+	// Constructor
+	public Point(int Chapter[], String nodeName, int sonNodeNum, String inScreen, String txtContent, String codes,
+			Point parent) {
+		if (Chapter.length > Point.floorNum) {
+			StringBuffer sb = new StringBuffer("编号：");
+			for (int i = 0; i < Chapter.length; ++i) {
 				sb.append(Chapter[i]);
 				sb.append(".");
 			}
 			sb.append("不存在！");
 			throw new IllegalArgumentException(sb.toString());
 		}
-		this.Chapter=Chapter;
-		this.nodeName=nodeName;
-		this.inScreen=inScreen;
-		this.codes=codes;
-		this.txtContent=txtContent;
-		this.sonNodeNum=sonNodeNum;
-		sons=new ArrayList<Point>();
-		this.parent=parent;
+		this.Chapter = Chapter;
+		this.nodeName = nodeName;
+		this.inScreen = inScreen;
+		this.codes = codes;
+		this.txtContent = txtContent;
+		this.sonNodeNum = sonNodeNum;
+		sons = new ArrayList<Point>();
+		this.parent = parent;
 	}
 
-	//getter and setter
+	// getter and setter
 	public int getSonNodeNum() {
 		return sonNodeNum;
 	}
@@ -91,7 +91,7 @@ public class Point implements TreeNode{
 		return nodeName;
 	}
 
-	//hash and equal
+	// hash and equal
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -120,29 +120,29 @@ public class Point implements TreeNode{
 		return true;
 	}
 
-	//覆写TreeNode接口
+	// 覆写TreeNode接口
 	@Override
 	public Enumeration<Point> children() {
-		Iterator<Point> it=sons.iterator();
-		Enumeration<Point> enu=new Enumeration<Point>() {
+		Iterator<Point> it = sons.iterator();
+		Enumeration<Point> enu = new Enumeration<Point>() {
 
 			@Override
 			public boolean hasMoreElements() {
-				 return it.hasNext();
+				return it.hasNext();
 			}
 
 			@Override
 			public Point nextElement() {
 				return it.next();
 			}
-			
+
 		};
 		return enu;
 	}
 
 	@Override
 	public boolean getAllowsChildren() {
-		return sonNodeNum==0;
+		return sonNodeNum == 0;
 	}
 
 	@Override
@@ -167,13 +167,13 @@ public class Point implements TreeNode{
 
 	@Override
 	public boolean isLeaf() {
-		return sonNodeNum==0;
+		return sonNodeNum == 0;
 	}
-	
-	//TreeNode接口以toString()的结果作为名称
+
+	// TreeNode接口以toString()的结果作为名称
 	@Override
 	public String toString() {
 		return nodeName;
 	}
-	
+
 }
