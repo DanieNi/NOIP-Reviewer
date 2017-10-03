@@ -3,10 +3,8 @@ package com.XiaoHuiHui.app.noipreview.data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -15,7 +13,9 @@ import java.util.logging.Level;
 
 import org.yaml.snakeyaml.Yaml;
 
-import com.XiaoHuiHui.app.noipreview.Outputer;
+import com.XiaoHuiHui.app.noipreview.data.tools.MyComparator;
+import com.XiaoHuiHui.app.noipreview.data.unit.Point;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 
 //数据存储和处理类，这是一个单例类
 public class Database {
@@ -58,14 +58,7 @@ public class Database {
 	// 读取根节点的数据
 	public void read() {
 		read(null, "data" + sp, -1);
-		Collections.sort(list, new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2) {
-				Comparator<Object> com = Collator.getInstance(java.util.Locale.CHINA);
-				return com.compare(o1, o2);
-
-			}
-		});
+		Collections.sort(list, new MyComparator<String>());
 		Outputer.log(Level.INFO, "Read completely...");
 	}
 

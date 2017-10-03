@@ -1,16 +1,18 @@
-package com.XiaoHuiHui.app.noipreview.GUI;
+package com.XiaoHuiHui.app.noipreview.GUI.adapter;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 
-import com.XiaoHuiHui.app.noipreview.Main;
-import com.XiaoHuiHui.app.noipreview.Outputer;
+import com.XiaoHuiHui.app.noipreview.GUI.frame.MainFrame;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 
-public class ExitWindowAdapter extends WindowAdapter{
+public class CloseFrameWindowAdapter extends WindowAdapter{
+	public static MainFrame main;
+	
 	String name;
 	
-	public ExitWindowAdapter(String name) {
+	public CloseFrameWindowAdapter(String name) {
 		super();
 		this.name=name;
 	}
@@ -47,11 +49,12 @@ public class ExitWindowAdapter extends WindowAdapter{
 			return false;
 		return true;
 	}
-
+	
 	@Override
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(WindowEvent arg0) {
 		Outputer.log(Level.INFO, "Clicked Button FRAME_CLOSE_BUTTON on "+name);
-		Outputer.log(Level.INFO,name+" Closed...");
-		Main.exit();
+		Outputer.log(Level.INFO, name+" Closed...");
+		main.setEnabled(true);
 	}
+
 }

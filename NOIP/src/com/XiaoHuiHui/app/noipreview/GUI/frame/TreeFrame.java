@@ -1,12 +1,12 @@
-package com.XiaoHuiHui.app.noipreview.GUI;
+package com.XiaoHuiHui.app.noipreview.GUI.frame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.XiaoHuiHui.app.noipreview.Outputer;
 import com.XiaoHuiHui.app.noipreview.data.Database;
-import com.XiaoHuiHui.app.noipreview.data.Point;
+import com.XiaoHuiHui.app.noipreview.data.unit.Point;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 
 import javax.swing.JTextArea;
 

@@ -1,4 +1,4 @@
-package com.XiaoHuiHui.app.noipreview.data;
+package com.XiaoHuiHui.app.noipreview.data.unit;
 
 import java.io.Serializable;
 

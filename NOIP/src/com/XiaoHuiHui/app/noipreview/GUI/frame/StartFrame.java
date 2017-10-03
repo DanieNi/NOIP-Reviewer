@@ -1,11 +1,16 @@
-package com.XiaoHuiHui.app.noipreview.GUI;
+package com.XiaoHuiHui.app.noipreview.GUI.frame;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.XiaoHuiHui.app.noipreview.Main;
-import com.XiaoHuiHui.app.noipreview.Outputer;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.AboutMouseAdapter;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.ExitMouseAdapter;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.ExitWindowAdapter;
+import com.XiaoHuiHui.app.noipreview.GUI.component.PictureLabel;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
+import com.XiaoHuiHui.app.noipreview.GUI.thread.MainFrameStart;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -61,31 +66,14 @@ public class StartFrame extends JFrame {
 	private void lbIconInit() {
 		Outputer.log(Level.INFO, "Loading Label: lbIcon");
 		URL url = this.getClass().getResource("image/2.png");
-		ImageIcon icon = new ImageIcon(url);
-		Outputer.log(Level.INFO, "Read file:image/2.png");
-		lbIcon = new JLabel("") {
-
-			private static final long serialVersionUID = -4907073641583366787L;
-
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), icon.getImageObserver());
-			}
-		};
+		lbIcon = new PictureLabel(url);
 		lbIcon.setBounds(35, 21, 144, 144);
 		contentPane.add(lbIcon);
 	}
 
 	private void bExitEventsRegister() {
 		Outputer.log(Level.INFO, "Registering events to Button: bExit");
-		bExit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				Outputer.log(Level.INFO,"Clicked Button bExit on startFrame");
-				Outputer.log(Level.INFO,"StartFrame Closed...");
-				Main.exit();
-			}
-		});
+		bExit.addMouseListener(new ExitMouseAdapter(name));
 	}
 
 	private void bExitInit() {
@@ -98,16 +86,7 @@ public class StartFrame extends JFrame {
 
 	private void bAboutEventsRegister() {
 		Outputer.log(Level.INFO, "Registering events to Button: bAbout");
-		bAbout.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				Outputer.log(Level.INFO,"Clicked Button bAbout on startFrame");
-				JOptionPane.showMessageDialog(contentPane,
-						"               NOIP Reviewer v1.0.\n"
-								+ "        Made by DanieNi&XiaoHuihui\nCopyright © XingTai NO.1 Middle School",
-						"About", JOptionPane.PLAIN_MESSAGE);
-			}
-		});
+		bAbout.addMouseListener(new AboutMouseAdapter(contentPane));
 	}
 
 	private void bAboutInit() {
@@ -124,18 +103,7 @@ public class StartFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Outputer.log(Level.INFO,"Click bStart Button on startFrame");
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							MainFrame frame = new MainFrame();
-							frame.setLocationRelativeTo(StartFrame.this);
-							frame.setVisible(true);
-							setVisible(false);
-						} catch (Throwable e) {
-							Main.error(e);
-						}
-					}
-				});
+				EventQueue.invokeLater(new MainFrameStart(StartFrame.this));
 			}
 		});
 	}
