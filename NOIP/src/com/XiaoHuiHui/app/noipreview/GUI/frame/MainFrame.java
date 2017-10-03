@@ -1,4 +1,4 @@
-package com.XiaoHuiHui.app.noipreview.GUI;
+package com.XiaoHuiHui.app.noipreview.GUI.frame;
 
 import java.awt.EventQueue;
 
@@ -7,7 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.XiaoHuiHui.app.noipreview.Main;
-import com.XiaoHuiHui.app.noipreview.Outputer;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.CloseFrameWindowAdapter;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.ExitMouseAdapter;
+import com.XiaoHuiHui.app.noipreview.GUI.adapter.ExitWindowAdapter;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 
 import javax.swing.JButton;
 import java.awt.Font;
@@ -67,14 +70,7 @@ public class MainFrame extends JFrame {
 
 	private void bExitEventsRegister() {
 		Outputer.log(Level.INFO, "Registering events to Button: bExit");
-		bExit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				Outputer.log(Level.INFO, "Clicked Button bExit on mainFrame");
-				Outputer.log(Level.INFO, "MainFrame Closed...");
-				Main.exit();
-			}
-		});
+		bExit.addMouseListener(new ExitMouseAdapter(name));
 	}
 
 	private void bKnowledgeEventsRegister() {

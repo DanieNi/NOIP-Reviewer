@@ -1,4 +1,4 @@
-package com.XiaoHuiHui.app.noipreview;
+package com.XiaoHuiHui.app.noipreview.tools;
 
 import java.io.File;
 import java.io.FileWriter;

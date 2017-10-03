@@ -8,14 +8,16 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.XiaoHuiHui.app.noipreview.GUI.StartFrame;
+import com.XiaoHuiHui.app.noipreview.GUI.thread.StartFrameStart;
 import com.XiaoHuiHui.app.noipreview.data.Database;
+import com.XiaoHuiHui.app.noipreview.thread.CountThread;
+import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 
 //入口类
 public class Main {
 	public static boolean isError = false;
 
-	public static Thread thread;
+	public static CountThread thread;
 
 	// 入口
 	public static void main(String[] args) {
@@ -25,39 +27,11 @@ public class Main {
 			setUI();
 			Database.init();
 			Database.getInstance().read();
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						StartFrame frame = new StartFrame();
-						frame.setVisible(true);
-					} catch (Throwable e) {
-						error(e);
-					}
-
-				}
-			});
-			thread = new Thread() {
-				private int count = 0;
-
-				@Override
-				public void run() {
-					Outputer.log(Level.FINE, "-------- Start Count Thread --------");
-					while (!isInterrupted()) {
-						try {
-							Outputer.log(Level.FINE, "--------- Count Thread #" + ++count + " ----------");
-							sleep(5000);
-							
-						} catch (InterruptedException e) {
-							Thread.currentThread().interrupt();
-							break;
-						}
-					}
-				}
-			};
+			EventQueue.invokeLater(new StartFrameStart());
+			thread = new CountThread();
 		} catch (Throwable e) {
 			error(e);
 		}
-
 	}
 
 	public static void error(Throwable e) {
