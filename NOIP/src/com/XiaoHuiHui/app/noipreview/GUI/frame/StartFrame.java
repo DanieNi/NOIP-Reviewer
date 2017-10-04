@@ -13,12 +13,9 @@ import com.XiaoHuiHui.app.noipreview.tools.Outputer;
 import com.XiaoHuiHui.app.noipreview.GUI.thread.MainFrameStart;
 
 import java.awt.EventQueue;
-import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -65,7 +62,7 @@ public class StartFrame extends JFrame {
 
 	private void lbIconInit() {
 		Outputer.log(Level.INFO, "Loading Label: lbIcon");
-		URL url = this.getClass().getResource("image/2.png");
+		URL url = this.getClass().getResource("/com/XiaoHuiHui/app/noipreview/GUI/image/2.png");
 		lbIcon = new PictureLabel(url);
 		lbIcon.setBounds(35, 21, 144, 144);
 		contentPane.add(lbIcon);
